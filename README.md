@@ -1,7 +1,7 @@
-# FastAPI Boilerplate
+# FastAPI MongoDB Boilerplate
 
-[![Test](https://github.com/svaponi/fastapi-boilerplate/actions/workflows/run-tests.yml/badge.svg)](https://github.com/svaponi/fastapi-boilerplate/actions/workflows/run-tests.yml)
-[![Coverage Status](https://coveralls.io/repos/github/svaponi/fastapi-boilerplate/badge.svg?branch=main)](https://coveralls.io/github/svaponi/fastapi-boilerplate?branch=main)
+[![Test](https://github.com/svaponi/fastapi-mongodb-boilerplate/actions/workflows/run-tests.yml/badge.svg)](https://github.com/svaponi/fastapi-mongodb-boilerplate/actions/workflows/run-tests.yml)
+[![Coverage Status](https://coveralls.io/repos/github/svaponi/fastapi-mongodb-boilerplate/badge.svg?branch=main)](https://coveralls.io/github/svaponi/fastapi-mongodb-boilerplate?branch=main)
 
 Boilerplate repository to kickstart 🚀 your [FastAPI](https://fastapi.tiangolo.com/) project.
 

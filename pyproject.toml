@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "fastapi-boilerplate"
+name = "fastapi-mongodb-boilerplate"
 version = "0.1.0"
 description = ""
 authors = ["svaponi <10941963+svaponi@users.noreply.github.com>"]
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/svaponi/fastapi-boilerplate"
-homepage = "https://svaponi.github.io/fastapi-boilerplate"
+repository = "https://github.com/svaponi/fastapi-mongodb-boilerplate"
+homepage = "https://svaponi.github.io/fastapi-mongodb-boilerplate"
 
 [tool.poetry.dependencies]
 python = "^3.12"
