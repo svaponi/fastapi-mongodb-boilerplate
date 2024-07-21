@@ -103,8 +103,8 @@ class DataRepository:
         timestamp = datetime.datetime.now(datetime.UTC).isoformat()
         doc["_created_at"] = timestamp
         doc["_last_modified_at"] = timestamp
-        result = await self.mongo.insert_one(collection, doc)
-        return str(result.inserted_id)
+        inserted_id = await self.mongo.insert_one(collection, doc)
+        return str(inserted_id)
 
     async def patch(
         self,

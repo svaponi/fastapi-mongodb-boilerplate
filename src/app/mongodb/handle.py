@@ -2,7 +2,6 @@ import logging
 import typing
 
 import motor.motor_asyncio
-import motor.motor_asyncio
 from bson import ObjectId
 from pymongo.results import InsertOneResult, UpdateResult, DeleteResult
 
@@ -16,6 +15,7 @@ def create_motor_client(
 
 
 MongoDocument = typing.Mapping[str, typing.Any]
+MongoDocumentId = str | ObjectId
 
 
 class MongoHandle:
@@ -38,7 +38,7 @@ class MongoHandle:
         self.logger.debug(f"drop_collection: {res}")
 
     async def find_one(
-        self, collection: str, doc_id: str | ObjectId
+        self, collection: str, doc_id: MongoDocumentId
     ) -> MongoDocument | None:
         col = self.db.get_collection(collection)
         query = dict(_id=doc_id)
@@ -52,32 +52,32 @@ class MongoHandle:
         **kwargs,
     ) -> list[MongoDocument]:
         col = self.db.get_collection(collection)
-        cursor: motor.motor_asyncio.AsyncIOMotorCursor = col.find(**kwargs)
+        cursor: motor.motor_asyncio.AsyncIOMotorCursor = col.find(kwargs)
         res = await cursor.to_list(None)
         self.logger.debug(f"find: {res}")
         return res
 
-    async def insert_one(self, collection: str, doc: dict) -> InsertOneResult:
+    async def insert_one(self, collection: str, doc: dict) -> MongoDocumentId:
         col = self.db.get_collection(collection)
         res: InsertOneResult = await col.insert_one(doc)
         self.logger.debug(f"insert_one: {res}")
-        return res
+        return res.inserted_id
 
     async def update_one(
         self,
         collection: str,
-        doc_id: str | ObjectId,
+        doc_id: MongoDocumentId,
         doc: dict,
         upsert: bool = None,
-    ) -> UpdateResult:
+    ) -> int:
         col = self.db.get_collection(collection)
         res: UpdateResult = await col.update_one(
             dict(_id=doc_id), {"$set": doc}, upsert=upsert or False
         )
         self.logger.debug(f"update_one: {res}")
-        return res
+        return res.modified_count
 
-    async def delete_one(self, collection: str, doc_id: str | ObjectId) -> int:
+    async def delete_one(self, collection: str, doc_id: MongoDocumentId) -> int:
         col = self.db.get_collection(collection)
         query = dict(_id=doc_id)
         res: DeleteResult = await col.delete_one(query)
