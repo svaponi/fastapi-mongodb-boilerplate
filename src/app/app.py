@@ -3,11 +3,14 @@ import logging
 import typing
 
 import fastapi
+from starlette.responses import RedirectResponse
 
+from app.api.api import setup_api
 from app.core.cors import setup_cors
 from app.core.error_handlers import setup_error_handlers
 from app.core.logs import setup_logging
 from app.core.request_context import setup_request_context
+from app.mongodb.factory import create_mongo
 
 
 @contextlib.asynccontextmanager
@@ -40,6 +43,18 @@ class App(fastapi.FastAPI):
 
         # Setup cors
         setup_cors(self)
+
+        # Setup API routes
+        setup_api(self)
+
+        # We attach the MongoHandle to the app, so it can be reused for connection pooling.
+        self.mongo = create_mongo()
+
+        if hasattr(self, "docs_url") and self.docs_url:
+
+            @self.get("/", include_in_schema=False)
+            def root():
+                return RedirectResponse(self.docs_url)
 
 
 def create_app():
